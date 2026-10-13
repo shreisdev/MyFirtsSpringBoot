@@ -35,6 +35,8 @@
             <div class="card card-glass border-0 shadow-lg">
                 <div class="card-body p-4">
                     <h2 class="h4 mb-3">Novo Agendamento</h2>
+                    <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+                    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
                     <!-- DCU 001: Cliente informa dados e confirma -->
                     <!-- A ação do form será implementada no backend: POST /agendamentos -->
                     <form th:action="@{/agendamentos}" method="post" th:object="${agendamentoForm}">
@@ -101,7 +103,7 @@
 </main>
 <footer class="footer mt-auto py-4">
     <div class="container text-center text-muted">
-        © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2026</span> Barbearia
+        © <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2026</span> Barbearia
     </div>
 </footer>
 </body>

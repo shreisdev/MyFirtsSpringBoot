@@ -24,6 +24,8 @@
         <div class="card-body p-4">
             <h2 class="h4 mb-3">Painel de Agenda</h2>
             <p>Gerencie os agendamentos da barbearia.</p>
+            <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+            <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
             <!-- Aqui você pode adicionar a tabela ou lista de agendamentos -->
             <form class="row g-3 mb-4" th:action="@{/admin/painel}" method="get">
                 <div class="col-md-4">
@@ -69,11 +71,19 @@
                             <td th:text="${agendamento.codigo}"></td>
                             <td th:text="${agendamento.barbeiro.nome}"></td>
                             <td th:text="${agendamento.servico.nome}"></td>
-                            <td th:text="${#dates.format(agendamento.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(agendamento.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
                             <td th:text="${agendamento.status}"></td>
-                            <td>
+                            <td class="d-flex flex-wrap gap-1">
+                                <a th:if="${agendamento.status.name() == 'CONFIRMADO'}"
+                                   th:href="@{/admin/concluir-agendamento(agendamentoId=${agendamento.id})}"
+                                   class="btn btn-sm btn-success">Concluir</a>
+                                <a th:if="${agendamento.status.name() == 'CONFIRMADO'}"
+                                   th:href="@{/admin/registrar-falta(agendamentoId=${agendamento.id})}"
+                                   class="btn btn-sm btn-warning">Falta</a>
                                 <a th:href="@{/admin/editar-agendamento(agendamentoId=${agendamento.id})}" class="btn btn-sm btn-primary">Editar</a>
-                                <a th:href="@{/admin/cancelar-agendamento(agendamentoId=${agendamento.id})}" class="btn btn-sm btn-danger">Cancelar</a>
+                                <a th:if="${agendamento.status.name() == 'CONFIRMADO'}"
+                                   th:href="@{/admin/cancelar-agendamento(agendamentoId=${agendamento.id})}"
+                                   class="btn btn-sm btn-danger">Cancelar</a>
                             </td>
                         </tr>
                     </tbody>
