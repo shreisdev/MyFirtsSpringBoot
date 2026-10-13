@@ -9,15 +9,7 @@
 </head>
 <body class="bg-dark-900">
 
-<nav class="navbar navbar-dark bg-dark-blue">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/}">✂️ Agenda Admin</a>
-    </div><div class="d-flex gap-2">
-        <a class="btn btn-outline-light" th:href="@{/admin/painel-agenda}">Painel</a>
-        <a class="btn btn-outline-light" th:href="@{/admin/logout}">Sair</a>
-        <a class="btn btn-outline-light btn-sm" th:href="@{/agendar}">Cliente</a>
-    </div>
-    </nav>
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
 
 <main class="container py-4">
     <div class="card card-glass border-0 shadow-lg">

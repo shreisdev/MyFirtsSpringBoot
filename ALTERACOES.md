@@ -53,6 +53,7 @@ O arquivo antigo tinha **apenas** `spring.application.name=demo`. Acrescentei:
 - **Removido um `<a class="navbar-brand">` aninhado dentro de outro** (a marca ficava com âncora dupla/quebrada).
 - **`#dates.format(...)` → `#temporals.format(...)`.** `Agendamento.dataHora` é `LocalDateTime` (java.time); o dialeto certo no Thymeleaf é `#temporals` (`#dates` é para `java.util.Date`).
 - **Adicionados os blocos de flash** (`erro` / `mensagem`).
+- **Botão "Avaliar atendimento"** (abaixo dos botões Cancelar/Remarcar): aparece **só quando o status é `CONCLUIDO` e o agendamento ainda não tem avaliação**, levando a `/avaliar`. Se já houver avaliação, a página passa a mostrar "Sua avaliação: nota/5".
 
 ### 3.3 `templates/cliente/cancelar.html`
 - **Removido o `th:replace="~{layout/fragments/header :: header}"`** de dentro do `<nav>`: esse fragmento não existe e era o motivo de a página dar **erro 500**.
@@ -73,6 +74,7 @@ O arquivo antigo tinha **apenas** `spring.application.name=demo`. Acrescentei:
 - **`#dates.format(...)` → `#temporals.format(...)`** (mesmo motivo do status).
 - **Adicionados os blocos de flash** (`erro` / `mensagem`).
 - **Coluna "Ações" ganhou os botões `Concluir` e `Falta`**, visíveis **só quando o status é `CONFIRMADO`** (o `Cancelar` também passou a ser condicional). Isso torna utilizáveis as regras de **concluir atendimento** e **registrar falta** (o "concluir" é o que alimenta a fidelidade — RF20). Antes esses botões não existiam e as regras ficavam inacessíveis pela interface.
+- **Menu padronizado:** a `<nav>` antiga (com a marca quebrada) foi substituída pelo fragmento compartilhado `~{layout/fragments/admin-nav :: adminNav}`, que agora concentra os links das telas administrativas (Painel, Serviços, Horários, Bloqueios, Fidelidade, Avaliações, Cliente e Sair).
 
 ### 3.7 `templates/layout/fragments/footer.html` — correção importante
 - **O arquivo não declarava o fragmento `footer`.** Ele era referenciado como `~{layout/fragments/footer :: footer}`, mas sem `th:fragment`. O seletor `:: footer` acabava casando só com a tag `<footer>`, **deixando de fora os `<script>` que vinham depois** → o Bootstrap JS e o `app.js` **não eram carregados** em nenhuma página.
@@ -113,7 +115,9 @@ Além das alterações acima, foram **criados** os arquivos do back-end (nenhum 
 - **Repositórios** (`repository/`): 7 interfaces Spring Data JPA.
 - **Serviços** (`service/`): 7 classes com as regras de negócio (RF05/RF06/RF07, disponibilidade, fidelidade, autenticação com BCrypt).
 - **Controllers** (`controller/`): `HomeController`, `AgendamentoController`, `ClienteController`, `AdminController` (MVC/Thymeleaf).
-- **Apoio**: `dto/AgendamentoForm`, `exception/RegraNegocioException`, `exception/RecursoNaoEncontradoException`, `util/SenhaUtil`, `config/DataSeeder` (dados iniciais: admin/admin, joao/joao, horários e 3 serviços) e `DemoApplication`.
+- **Controllers de cadastro** (`controller/`): `ServicoController`, `HorarioTrabalhoController`, `BloqueioHorarioController`, `FidelidadeController` e `AvaliacaoController` — CRUD/consulta das classes que ainda não tinham interface, mais o formulário público de avaliação (`/avaliar`).
+- **Telas novas** (`templates/`): `layout/fragments/admin-nav.html` e as pastas `admin/servicos/`, `admin/horarios/`, `admin/bloqueios/`, `admin/fidelidade/`, `admin/avaliacoes/` e `cliente/avaliar.html`.
+- **Apoio**: `dto/AgendamentoForm`, `exception/RegraNegocioException`, `exception/RecursoNaoEncontradoException`, `util/SenhaUtil`, `util/SessaoAdmin`, `util/DiasSemana`, `config/DataSeeder` (dados iniciais: admin/admin, joao/joao, horários e 3 serviços) e `DemoApplication`.
 
 ---
 

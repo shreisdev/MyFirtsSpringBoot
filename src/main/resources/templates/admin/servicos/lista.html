@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Serviços</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Serviços</h2>
+        <a class="btn btn-accent" th:href="@{/admin/servicos/novo}">Novo serviço</a>
+    </div>
+
+    <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+    <div class="card card-glass border-0 shadow-lg">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Duração</th>
+                        <th>Preço</th>
+                        <th>Situação</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="s : ${servicos}">
+                        <td th:text="${s.nome}"></td>
+                        <td th:text="${s.duracaoMinutos + ' min'}"></td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(s.preco, 1, 2)}"></td>
+                        <td>
+                            <span th:if="${s.ativo}" class="badge bg-success">Ativo</span>
+                            <span th:unless="${s.ativo}" class="badge bg-secondary">Inativo</span>
+                        </td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-primary" th:href="@{/admin/servicos/{id}/editar(id=${s.id})}">Editar</a>
+                            <a th:if="${s.ativo}" class="btn btn-sm btn-danger"
+                               th:href="@{/admin/servicos/{id}/inativar(id=${s.id})}">Inativar</a>
+                            <a th:unless="${s.ativo}" class="btn btn-sm btn-success"
+                               th:href="@{/admin/servicos/{id}/ativar(id=${s.id})}">Ativar</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(servicos)}">
+                        <td colspan="5" class="text-center text-muted py-4">Nenhum serviço cadastrado.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

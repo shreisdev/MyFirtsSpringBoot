@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fidelidade dos clientes</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Fidelidade dos clientes</h2>
+        <span class="text-muted">Meta: <strong th:text="${meta}">10</strong> atendimentos</span>
+    </div>
+
+    <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+    <form class="row g-2 mb-3" method="get" th:action="@{/admin/fidelidade}">
+        <div class="col-sm-8 col-md-5">
+            <input class="form-control" type="email" name="email" placeholder="Consultar por e-mail..."
+                   th:value="${param.email}" />
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <button class="btn btn-outline-light w-100" type="submit">Consultar</button>
+        </div>
+    </form>
+
+    <div class="card card-glass border-0 shadow-lg mb-3" th:if="${consulta != null}">
+        <div class="card-body">
+            <h3 class="h6 mb-2">Resultado da consulta</h3>
+            <p class="mb-1"><strong>E-mail:</strong> <span th:text="${consulta.email}"></span></p>
+            <p class="mb-1"><strong>Atendimentos:</strong> <span th:text="${consulta.quantidadeAtendimentos}"></span></p>
+            <p class="mb-0"><strong>Situação:</strong>
+                <span th:if="${consulta.elegivelParaRecompensa()}" class="badge bg-success">Elegível a recompensa</span>
+                <span th:unless="${consulta.elegivelParaRecompensa()}" class="badge bg-secondary">Ainda não elegível</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="card card-glass border-0 shadow-lg">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>E-mail</th>
+                        <th>Atendimentos</th>
+                        <th>Progresso</th>
+                        <th>Situação</th>
+                        <th>Última atualização</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="r : ${registros}">
+                        <td th:text="${r.email}"></td>
+                        <td th:text="${r.quantidadeAtendimentos}"></td>
+                        <td th:text="${r.quantidadeAtendimentos + ' / ' + meta}"></td>
+                        <td>
+                            <span th:if="${r.elegivelParaRecompensa()}" class="badge bg-success">Elegível</span>
+                            <span th:unless="${r.elegivelParaRecompensa()}" class="badge bg-secondary">Em andamento</span>
+                        </td>
+                        <td th:text="${r.ultimaAtualizacao != null ? #temporals.format(r.ultimaAtualizacao, 'dd/MM/yyyy HH:mm') : '—'}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(registros)}">
+                        <td colspan="5" class="text-center text-muted py-4">Nenhum atendimento concluído ainda.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

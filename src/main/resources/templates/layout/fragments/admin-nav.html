@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Menu compartilhado das telas administrativas -->
+<nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-dark bg-dark-blue shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/admin/painel-agenda}">✂️ Agenda Admin</a>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/painel-agenda}">Painel</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/servicos}">Serviços</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/horarios}">Horários</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/bloqueios}">Bloqueios</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/fidelidade}">Fidelidade</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/avaliacoes}">Avaliações</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/agendar}">Cliente</a>
+            <a class="btn btn-sm btn-outline-light" th:href="@{/admin/logout}">Sair</a>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${edicao} ? 'Editar serviço' : 'Novo serviço'">Novo serviço</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
+
+<main class="container py-5">
+    <div class="card card-glass border-0 shadow-lg mx-auto" style="max-width: 560px;">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3" th:text="${edicao} ? 'Editar serviço' : 'Novo serviço'">Novo serviço</h2>
+
+            <form th:action="${edicao} ? @{/admin/servicos/{id}(id=${servico.id})} : @{/admin/servicos}" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="nome">Nome</label>
+                    <input class="form-control" id="nome" name="nome" type="text" required
+                           th:value="${servico.nome}" placeholder="Ex.: Corte de cabelo" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="duracaoMinutos">Duração (minutos)</label>
+                    <input class="form-control" id="duracaoMinutos" name="duracaoMinutos" type="number" min="1" step="5" required
+                           th:value="${servico.duracaoMinutos != 0 ? servico.duracaoMinutos : 30}" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="preco">Preço (R$)</label>
+                    <input class="form-control" id="preco" name="preco" type="number" min="0" step="0.01" required
+                           th:value="${servico.preco}" placeholder="0,00" />
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-accent" type="submit">Salvar</button>
+                    <a class="btn btn-outline-light" th:href="@{/admin/servicos}">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

@@ -77,6 +77,12 @@ java -jar target/demo-0.0.1-SNAPSHOT.jar
 | `/cliente/cancelar` | Cancelar um agendamento |
 | `/admin/login` | Login do barbeiro |
 | `/admin/painel-agenda` | Painel com filtros (barbeiro / dia / semana / manhã / tarde / noite) e ações |
+| `/admin/servicos` | Cadastro de serviços (nome, duração, preço, ativo/inativo) |
+| `/admin/horarios` | Horários de trabalho por barbeiro (com almoço) |
+| `/admin/bloqueios` | Bloqueios de agenda (pontuais e recorrentes) |
+| `/admin/fidelidade` | Consulta de fidelidade por e-mail (RF20) |
+| `/admin/avaliacoes` | Avaliações recebidas e média das notas |
+| `/avaliar` | Cliente avalia um atendimento concluído (link na tela de status) |
 | `/h2-console` | Console do banco H2 |
 
 ### Usuários de teste (criados pelo `DataSeeder`)

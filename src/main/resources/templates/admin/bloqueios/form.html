@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Novo bloqueio de horário</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
+
+<main class="container py-5">
+    <div class="card card-glass border-0 shadow-lg mx-auto" style="max-width: 640px;">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3">Novo bloqueio de horário</h2>
+            <p class="text-muted small">
+                <strong>Pontual</strong>: vale só entre as datas/horas informadas.
+                <strong>Recorrente</strong>: repete toda semana no dia escolhido, usando o horário de início/fim.
+            </p>
+
+            <form th:action="@{/admin/bloqueios}" method="post">
+                <div class="mb-3">
+                    <label class="form-label" for="barbeiroId">Barbeiro</label>
+                    <select class="form-select" id="barbeiroId" name="barbeiroId" required>
+                        <option value="" selected disabled>Selecione...</option>
+                        <option th:each="b : ${barbeiros}" th:value="${b.id}" th:text="${b.nome}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="tipo">Tipo</label>
+                    <select class="form-select" id="tipo" name="tipo" required>
+                        <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
+                    </select>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label" for="dataHoraInicio">Início</label>
+                        <input class="form-control" id="dataHoraInicio" name="dataHoraInicio" type="datetime-local" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label" for="dataHoraFim">Fim</label>
+                        <input class="form-control" id="dataHoraFim" name="dataHoraFim" type="datetime-local" required />
+                    </div>
+                </div>
+
+                <div class="mb-3 mt-3">
+                    <label class="form-label" for="diaSemanaRecorrencia">Dia da semana (só para bloqueio recorrente)</label>
+                    <select class="form-select" id="diaSemanaRecorrencia" name="diaSemanaRecorrencia">
+                        <option value="">—</option>
+                        <option value="1">Segunda-feira</option>
+                        <option value="2">Terça-feira</option>
+                        <option value="3">Quarta-feira</option>
+                        <option value="4">Quinta-feira</option>
+                        <option value="5">Sexta-feira</option>
+                        <option value="6">Sábado</option>
+                        <option value="7">Domingo</option>
+                    </select>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-accent" type="submit">Salvar</button>
+                    <a class="btn btn-outline-light" th:href="@{/admin/bloqueios}">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

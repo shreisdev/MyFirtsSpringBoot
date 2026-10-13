@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Avaliações</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Avaliações recebidas</h2>
+        <span class="badge bg-warning text-dark fs-6"
+              th:text="${'Média: ' + #numbers.formatDecimal(media, 1, 2)}">Média: 0,00</span>
+    </div>
+
+    <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+    <div class="card card-glass border-0 shadow-lg">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Barbeiro</th>
+                        <th>Serviço</th>
+                        <th>Nota</th>
+                        <th>Comentário</th>
+                        <th>Data</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="a : ${avaliacoes}">
+                        <td th:text="${a.agendamento.codigo}"></td>
+                        <td th:text="${a.agendamento.barbeiro.nome}"></td>
+                        <td th:text="${a.agendamento.servico.nome}"></td>
+                        <td>
+                            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                  th:classappend="${i <= a.nota} ? 'text-warning' : 'text-secondary'">★</span>
+                            <span class="ms-1 text-muted" th:text="${'(' + a.nota + ')'}"></span>
+                        </td>
+                        <td th:text="${a.comentario != null and !a.comentario.isBlank() ? a.comentario : '—'}"></td>
+                        <td th:text="${#temporals.format(a.dataAvaliacao, 'dd/MM/yyyy HH:mm')}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(avaliacoes)}">
+                        <td colspan="6" class="text-center text-muted py-4">Nenhuma avaliação recebida ainda.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

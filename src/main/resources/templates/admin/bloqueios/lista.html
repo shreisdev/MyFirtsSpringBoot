@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bloqueios de horário</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+<nav th:replace="~{layout/fragments/admin-nav :: adminNav}"></nav>
+
+<main class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Bloqueios de horário</h2>
+        <a class="btn btn-accent" th:href="@{/admin/bloqueios/novo}">Novo bloqueio</a>
+    </div>
+
+    <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+    <div class="alert alert-success" th:if="${mensagem}" th:text="${mensagem}"></div>
+
+    <form class="row g-2 mb-3" method="get" th:action="@{/admin/bloqueios}">
+        <div class="col-sm-6 col-md-4">
+            <select class="form-select" name="barbeiroId">
+                <option value="">Selecione o barbeiro...</option>
+                <option th:each="b : ${barbeiros}" th:value="${b.id}" th:text="${b.nome}"
+                        th:selected="${barbeiroId != null and b.id == barbeiroId}"></option>
+            </select>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <button class="btn btn-outline-light w-100" type="submit">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="card card-glass border-0 shadow-lg">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Recorrência</th>
+                        <th class="text-end">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="b : ${bloqueios}">
+                        <td th:text="${b.tipo}"></td>
+                        <td th:text="${#temporals.format(b.dataHoraInicio, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(b.dataHoraFim, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:if="${b.diaSemanaRecorrencia != null}" th:text="${dias[b.diaSemanaRecorrencia]}"></td>
+                        <td th:if="${b.diaSemanaRecorrencia == null}" class="text-muted">—</td>
+                        <td class="text-end">
+                            <a class="btn btn-sm btn-danger"
+                               th:href="@{/admin/bloqueios/{id}/remover(id=${b.id}, barbeiroId=${barbeiroId})}">Remover</a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(bloqueios)}">
+                        <td colspan="5" class="text-center text-muted py-4">
+                            <span th:if="${barbeiroId == null}">Selecione um barbeiro para ver os bloqueios.</span>
+                            <span th:if="${barbeiroId != null}">Nenhum bloqueio cadastrado para este barbeiro.</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>
