@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Status do agendamento</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<<body class="bg-dark-900">
+<nav class="navbar navbar-dark bg-dark-blue">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <a class="navbar-brand" th:href="@{/}">✂️ Barbearia
+        </a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}">Admin</a></li>
+        </ul>
+    </div>
+</nav>
+<main class="container py-5">
+    <div class="card card-glass border-0 shadow-lg">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3">Consultar Status</h2>
+            <p>Informe o código do seu agendamento para verificar o status.</p>
+            <form th:action="@{/cliente/status}" method="get">
+                <div class="mb-3">
+                    <label for="codigo" class="form-label">Código do Agendamento</label>
+                    <input type="text" class="form-control" id="codigo" name="codigo" required />
+                </div>
+                <button type="submit" class="btn btn-primary">Consultar</button>
+            </form>
+            <div th:if="${agendamento != null}" class="mt-4">
+                <h3 class="h5">Detalhes do Agendamento</h3>
+                <p><strong>Código:</strong> <span th:text="${agendamento.codigo}"></span></p>
+                <p><strong>Barbeiro:</strong> <span th:text="${agendamento.barbeiro.nome}"></span></p>
+                <p><strong>Serviço:</strong> <span th:text="${agendamento.servico.nome}"></span></p>
+                <p><strong>Data e Horário:</strong> <span th:text="${#dates.format(agendamento.dataHora, 'dd/MM/yyyy HH:mm')}"></span></p>
+                <p><strong>Status:</strong> <span th:text="${agendamento.status}"></span></p>
+                <div class="mt-3">
+                    <a th:href="@{/cliente/cancelar(agendamentoId=${agendamento.id})}" class="btn btn-danger">Cancelar</a>
+                    <a th:href="@{/cliente/remarcar(agendamentoId=${agendamento.id})}" class="btn btn-secondary">Remarcar</a>
+                </div>
+            </div>
+            <div th:if="${agendamento == null and codigo != null}" class="mt-4">
+                <p class="text-danger">Agendamento não encontrado para o código informado.</p>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

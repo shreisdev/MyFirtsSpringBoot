@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Painel de agenda</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body class="bg-dark-900">
+
+<nav class="navbar navbar-dark bg-dark-blue">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">✂️ Agenda Admin</a>
+    </div><div class="d-flex gap-2">
+        <a class="btn btn-outline-light" th:href="@{/admin/painel-agenda}">Painel</a>
+        <a class="btn btn-outline-light" th:href="@{/admin/logout}">Sair</a>
+        <a class="btn btn-outline-light btn-sm" th:href="@{/agendar}">Cliente</a>
+    </div>
+    </nav>
+
+<main class="container py-4">
+    <div class="card card-glass border-0 shadow-lg">
+        <div class="card-body p-4">
+            <h2 class="h4 mb-3">Painel de Agenda</h2>
+            <p>Gerencie os agendamentos da barbearia.</p>
+            <!-- Aqui você pode adicionar a tabela ou lista de agendamentos -->
+            <form class="row g-3 mb-4" th:action="@{/admin/painel}" method="get">
+                <div class="col-md-4">
+                    <label class="form-label">Barbeiro</label>
+                    <select class="form-select" name="barbeiroId">
+                        <option value="" selected>Todos</option>
+                        <option th:each="b : ${barbeiros}" th:value="${b.id}" th:text="${b.nome}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Período</label>
+                    <select class="form-select" name="periodo">
+                        <option value="" selected>Todos</option>
+                        <option value="DIA" selected>Dia</option>
+                        <option value="SEMANA">Semana</option>
+                        <option value="manha">Manhã</option>
+                        <option value="tarde">Tarde</option>
+                        <option value="noite">Noite</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Data</label>
+                    <input class="form-control" type="date" name="data" required />
+                    </div>
+                <div class="col-12">
+                    <button class="btn btn-accent" type="submit">Filtrar</button>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Barbeiro</th>
+                            <th>Serviço</th>
+                            <th>Data e Horário</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="agendamento : ${agendamentos}">
+                            <td th:text="${agendamento.codigo}"></td>
+                            <td th:text="${agendamento.barbeiro.nome}"></td>
+                            <td th:text="${agendamento.servico.nome}"></td>
+                            <td th:text="${#dates.format(agendamento.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                            <td th:text="${agendamento.status}"></td>
+                            <td>
+                                <a th:href="@{/admin/editar-agendamento(agendamentoId=${agendamento.id})}" class="btn btn-sm btn-primary">Editar</a>
+                                <a th:href="@{/admin/cancelar-agendamento(agendamentoId=${agendamento.id})}" class="btn btn-sm btn-danger">Cancelar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+

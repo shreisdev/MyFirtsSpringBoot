@@ -1,0 +1,76 @@
+:root{
+  --accent: #ffb703; /* dourado */
+  --dark-blue: #0b1f3a;
+  --dark-900: #070a12;
+  --card-bg: rgba(255,255,255,0.06);
+}
+
+.bg-dark-900{
+  background: var(--dark-900);
+  color: #e9eef7;
+}
+
+.bg-dark-blue{
+  background: linear-gradient(90deg, #08172e, #0b2a4a) !important;
+}
+
+.brand-badge{
+  display:inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,183,3,0.15);
+  color: var(--accent);
+  margin-right: 6px;
+  font-weight: 700;
+}
+
+.btn-accent{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1b1b1b;
+  font-weight: 700;
+}
+.btn-accent:hover{
+  filter: brightness(0.95);
+  color: #1b1b1b;
+}
+
+.card-glass{
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #eef4ff;
+}
+
+.hero{
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+  background: #061225;
+  display:flex;
+  align-items:flex-end;
+}
+.hero-img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity: 0.55;
+  transform: scale(1.02);
+}
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(5,10,25,0.15), rgba(5,10,25,0.92));
+  z-index:1;
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  color:#fff;
+  padding-bottom: 28px;
+}
+.footer{
+  background: transparent;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cancelar Agendamento</title>
+</head>
+<body class = "bg-dark-900">
+<nav class="navbar navbar-dark bg-dark-blue">
+    <div class="container">
+        ///back and////
+        <a class="navbar-brand" th:href="@{/}">
+            <span class="brand-badge">✂️</span> Barbearia
+        </a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}">Admin</a></li>
+        </ul>
+    <header th:replace="~{layout/fragments/header :: header}"></header>
+    </div>
+</nav>
+
+<main class = "contanier py-5">
+    <div class = "card card-glass border-0 shadow-lg mx-auto" style = "max-width: 500px;">
+        <div class = "card-body p-4">
+            <h2 class = "h4 mb-3">Cancelar Agendamento</h2>
+            <p>Tem certeza que deseja cancelar o agendamento?</p>
+            <form th:action="@{/cliente/cancelar}" method="post">
+                <input type="hidden" name="agendamentoId" th:value="${agendamentoId}" />
+                <div class = "d-flex justify-content-between">
+                    <button type="submit" class = "btn btn-danger">Sim, cancelar</button>
+                    <a th:href="@{/cliente/status}" class = "btn btn-secondary">Não, voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</body>
+</html>

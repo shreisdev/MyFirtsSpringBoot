@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${title} ?: 'Agendamento da Barbearia'">Agendamento da Barbearia</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark-blue shadow-sm">
+    <div class="container">
+        <span class="brand-badge">✂️</span> Barbearia
+        </a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/agendar}">Agendar</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/cliente/status}">Status</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}">Admin</a></li>
+            </ul>    </div>  </div></nav><div class="container pt-4 pb-5">

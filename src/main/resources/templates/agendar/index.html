@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agendar Atendimento</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
+    <footer th:replace="~{layout/fragments/footer :: footer}"></footer>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark-blue shadow-sm">
+
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <span class="brand-badge">✂️</span> Barbearia
+        </a>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}">Admin</a></li>
+        </ul>
+    </div>
+</nav>
+<header class="hero">
+    div class="hero-overlay"></div>
+    <div class="hero-content container">
+        <h1 class="display-6 fw-bold">Agende seu horário com facilidade</h1>
+        <p class="lead mb-0">Selecione barbeiro, serviço e horário disponível. Sem login.</p>
+    </div>
+    <img class="hero-img" th:src="@{/images/barbearia-hero.jpg}" alt="Barbearia">
+</header>
+
+<main class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card card-glass border-0 shadow-lg">
+                <div class="card-body p-4">
+                    <h2 class="h4 mb-3">Novo Agendamento</h2>
+                    <!-- DCU 001: Cliente informa dados e confirma -->
+                    <!-- A ação do form será implementada no backend: POST /agendamentos -->
+                    <form th:action="@{/agendamentos}" method="post" th:object="${agendamentoForm}">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Barbeiro</label>
+                                <select class="form-select" name="barbeiroId" required>
+                                    <option value="" selected disabled>Selecione...</option>
+                                    <!-- depois o backend preenche lista -->
+                                    <option th:each="b : ${barbeiros}"
+                                            th:value="${b.id}"
+                                            th:text="${b.nome}">
+                                </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Serviço</label>
+                                <select class="form-select" name="servicoId" required>
+                                    <option value="" selected disabled>Selecione...</option>
+                                    <option th:each="s : ${servicos}"
+                                            th:value="${s.id}"
+                                            th:text="${s.nome + ' (' + s.duracaoMin + 'min)'}">
+                                </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Horário disponível</label>
+                                <!-- opcional: depois via JS muda conforme barbeiro/serviço -->
+                                <input class="form-control" type="datetime-local" name="horario" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Seu nome</label>
+                                <input class="form-control" type="text" name="nome" placeholder="Seu nome" required/>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Seu telefone</label>
+                                <input class="form-control" type="text" name="telefone" placeholder="Seu telefone" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Seu e-mail</label>
+                                <input class="form-control" type="email" name="email" placeholder="Seu e-mail" required />
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2 mt-4"><button class="btn btn-accent btn-lg" type="submit">
+                            Confirmar Reserva
+                        </button>
+                            <a class="btn btn-outline-light" th:href="@{/cliente/status/consultar}">
+                                Já recebi um link por e-mail
+                            </a>
+                        </div>
+
+                        <p class="text-muted small mt-3 mb-0">
+                            Ao confirmar, você aceita que o atendimento será reservado após validação de disponibilidade e gravação atômica.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer class="footer mt-auto py-4">
+    <div class="container text-center text-muted">
+        © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2026</span> Barbearia
+    </div>
+</footer>
+</body>
+</html>
+
+
+
